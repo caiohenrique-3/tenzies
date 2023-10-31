@@ -130,14 +130,14 @@ function App() {
 
   return (
     <>
+      {tenzies && (
+        <Confetti width={window.innerWidth} height={window.innerHeight} />
+      )}
       <Header handleHelpClick={handleHelpClick} />
       {showHelp && <HelpPopup handleClosePopup={handleClosePopup} />}
       <div className="container">
         <main>
-          <p id="record-label">🥇 Personal Record: {record}</p>
-          {tenzies && (
-            <Confetti width={window.innerWidth} height={window.innerHeight} />
-          )}
+          <p id="record-label">🥇 Personal Record: {record} ⏰ Best time</p>
           <h2>Tenzies • Rolls {rolls}</h2>
           <div className="dice-container">
             {diceElements}

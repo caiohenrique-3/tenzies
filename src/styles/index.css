@@ -62,6 +62,7 @@ main p {
   padding: 0.5rem 0.5rem 0.1rem 0.1rem;
   color: green;
   text-transform: uppercase;
+  z-index: 0;
 }
 
 main h3 {
