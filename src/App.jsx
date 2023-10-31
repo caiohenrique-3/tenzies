@@ -12,6 +12,10 @@ function App() {
   const [allDices, setAllDices] = useState(() => allNewDice());
   const [tenzies, setTenzies] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [rolls, setRolls] = useState(0);
+  const [record, setRecord] = useState(() =>
+    localStorage.getItem("personalRecord") || 0
+  );
 
   function allNewDice() {
     const diceArr = [...Array(10)].map(() => ({
@@ -22,6 +26,8 @@ function App() {
   }
 
   function handleButtonClick() {
+    setRolls((prevState) => prevState + 1);
+
     if (!tenzies) {
       const updatedDices = [...allDices];
       for (let z = 0; z < allDices.length; z++) {
@@ -37,6 +43,7 @@ function App() {
     } else {
       setTenzies(false);
       setAllDices(allNewDice());
+      setRolls(0);
     }
   }
 
@@ -77,9 +84,22 @@ function App() {
 
     if (allIsHeld(allDices) && allIsSameValue(allDices)) {
       setTenzies(true);
-      console.log(tenzies);
     }
   }, [allDices]);
+
+  useEffect(() => {
+    if (tenzies) {
+      if (record === 0) {
+        setRecord(rolls);
+        localStorage.setItem("personalRecord", rolls);
+      } else {
+        if (rolls < record) {
+          setRecord(rolls);
+          localStorage.setItem("personalRecord", rolls);
+        }
+      }
+    }
+  }, [tenzies]);
 
   useEffect(() => {
     function handleEscKey(event) {
@@ -114,10 +134,11 @@ function App() {
       {showHelp && <HelpPopup handleClosePopup={handleClosePopup} />}
       <div className="container">
         <main>
+          <p id="record-label">🥇 Personal Record: {record}</p>
           {tenzies && (
             <Confetti width={window.innerWidth} height={window.innerHeight} />
           )}
-          <h2>Tenzies</h2>
+          <h2>Tenzies • Rolls {rolls}</h2>
           <div className="dice-container">
             {diceElements}
           </div>

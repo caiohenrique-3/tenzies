@@ -23,10 +23,6 @@ The project will be accessible at http://127.0.0.1:8080.
 
 ## TODO
 
-- CSS: put real dots on the dice
-
-- Track the number of rolls
-
 - Track the time it took to win
 
 - Save best time to localStorage
