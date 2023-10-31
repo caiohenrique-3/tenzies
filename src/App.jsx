@@ -2,6 +2,8 @@
 import Confetti from "react-confetti";
 import { useEffect, useState } from "react";
 import Die from "./components/Die";
+import Header from "./components/Header";
+import HelpPopup from "./components/HelpPopup";
 
 // css
 import "./styles/index.css";
@@ -9,6 +11,7 @@ import "./styles/index.css";
 function App() {
   const [allDices, setAllDices] = useState(() => allNewDice());
   const [tenzies, setTenzies] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
 
   function allNewDice() {
     const diceArr = [...Array(10)].map(() => ({
@@ -58,6 +61,14 @@ function App() {
     );
   });
 
+  function handleHelpClick() {
+    setShowHelp((prevState) => !prevState);
+  }
+
+  function handleClosePopup() {
+    setShowHelp(false);
+  }
+
   useEffect(() => {
     const allIsHeld = (allDices) => allDices.every((dice) => dice.isHeld);
 
@@ -70,23 +81,48 @@ function App() {
     }
   }, [allDices]);
 
+  useEffect(() => {
+    function handleEscKey(event) {
+      if (event.keyCode === 27) {
+        setShowHelp(false);
+      }
+    }
+
+    function handleClickOutside(event) {
+      if (event.target.className === "popup") {
+        setShowHelp(false);
+      }
+    }
+
+    if (showHelp) {
+      document.addEventListener("keydown", handleEscKey);
+      document.addEventListener("click", handleClickOutside);
+    } else {
+      document.removeEventListener("keydown", handleEscKey);
+      document.removeEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscKey);
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [showHelp]);
+
   return (
     <>
+      <Header handleHelpClick={handleHelpClick} />
+      {showHelp && <HelpPopup handleClosePopup={handleClosePopup} />}
       <div className="container">
         <main>
           {tenzies && (
             <Confetti width={window.innerWidth} height={window.innerHeight} />
           )}
           <h2>Tenzies</h2>
-          <p>
-            Roll until all dice are the same. Click each die to freeze at its
-            current value between rolls.
-          </p>
           <div className="dice-container">
             {diceElements}
           </div>
           <div className="button-container">
-            <button onClick={handleButtonClick}>
+            <button id="roll-button" onClick={handleButtonClick}>
               {tenzies ? "Reset Game" : "Roll"}
             </button>
           </div>

@@ -27,7 +27,6 @@
 body {
   font-family: "Poppins", sans-serif;
   background-color: #0b2434;
-  padding: 1.25rem;
 }
 
 .container {
@@ -35,6 +34,7 @@ body {
   justify-content: center;
   align-items: center;
   min-block-size: 100vh;
+  padding-inline: 1rem;
 }
 
 main {
@@ -52,6 +52,10 @@ main {
 
 main p {
   max-inline-size: 66ch;
+}
+
+main h3 {
+  color: #606060;
 }
 
 .dice-container {
@@ -88,7 +92,7 @@ main p {
   margin-block-start: 3rem;
 }
 
-button {
+#roll-button {
   font-family: "Poppins", sans-serif;
   display: inline-block;
   inline-size: 8.125rem;

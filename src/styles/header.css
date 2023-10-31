@@ -1,0 +1,14 @@
+header {
+  display: flex;
+}
+
+#show-help-button {
+  font-family: "Poppins", sans-serif;
+  background-color: transparent;
+  color: white;
+  border: none;
+  font-size: 1.4rem;
+  margin-inline-start: auto;
+  padding: 1rem;
+  margin-inline-end: 0.5rem;
+}
